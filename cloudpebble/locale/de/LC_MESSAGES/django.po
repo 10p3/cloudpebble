@@ -1,0 +1,952 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: CloudPebble\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: auth/views.py:31
+msgid "Invalid username or password"
+msgstr "Ungültiger Benutzername oder Passwort."
+
+#: auth/views.py:34
+msgid "Account disabled."
+msgstr "Konto gesperrt."
+
+#: ide/git.py:16
+msgid "Invalid user GitHub tokens."
+msgstr "Ungültiger GitHub-Token."
+
+#: ide/api/phone.py:44
+msgid "Tap to enable developer mode and install apps from CloudPebble."
+msgstr "Drücken, um den Entwickler-Modus einzuschalten und Apps von CloudPebble zu installieren."
+
+#: ide/api/project.py:289
+msgid "Invalid Github URL."
+msgstr "Ungültige GitHub-URL."
+
+#: ide/api/source.py:92
+msgid "Could not save: file has been modified since last save."
+msgstr "Speichern nicht möglich: Die Datei wurde seit dem letzten Speichern bearbeitet."
+
+#: ide/static/ide/js/compile.js:5
+msgid "Pending"
+msgstr "Ausstehend"
+
+#: ide/static/ide/js/compile.js:6
+msgid "Failed"
+msgstr "Fehlgeschlagen"
+
+#: ide/static/ide/js/compile.js:7
+msgid "Succeeded"
+msgstr "Erfolgreich"
+
+#: ide/models/files.py:19
+msgid "Binary blob"
+msgstr "Binäre Daten"
+
+#: ide/models/files.py:20
+msgid "1-bit PNG"
+msgstr "1-Bit-PNG"
+
+#: ide/models/files.py:21
+msgid "1-bit PNG with transparency"
+msgstr "1-Bit-PNG mit Transparenz"
+
+#: ide/models/files.py:22
+msgid "True-Type Font"
+msgstr "TrueType-Schrift"
+
+#: ide/models/files.py:45
+msgid "Uploaded file too big."
+msgstr "Hochgeladene Datei ist zu groß."
+
+#: ide/models/files.py:124
+msgid "App"
+msgstr "App"
+
+#: ide/models/files.py:125
+msgid "Worker"
+msgstr "Worker"
+
+#: ide/models/project.py:21 ide/templates/ide/index.html:81
+msgid "Pebble C SDK"
+msgstr "Pebble C SDK"
+
+#: ide/models/project.py:22 ide/templates/ide/index.html:82
+msgid "Simply.js"
+msgstr "Simply.js"
+
+#: ide/models/project.py:23 ide/templates/ide/index.html:83
+msgid "Pebble.js (beta)"
+msgstr "Pebble.js (beta)"
+
+#: ide/models/project.py:83 ide/templates/ide/index.html:88
+msgid "Template"
+msgstr "Vorlage"
+
+#: ide/models/project.py:84
+msgid "SDK Demo"
+msgstr "SDK-Beispiel"
+
+#: ide/models/project.py:85
+msgid "Example"
+msgstr "Beispiel"
+
+#: ide/models/user.py:19
+msgid "As-you-type"
+msgstr "Beim Tippen"
+
+#: ide/models/user.py:20
+msgid "When pressing Ctrl-Space"
+msgstr "Bei Strg+Leertaste"
+
+#: ide/models/user.py:21 ide/templates/ide/index.html:50
+msgid "Never"
+msgstr "Niemals"
+
+#: ide/models/user.py:28
+msgid "Standard"
+msgstr "Standard"
+
+#: ide/models/user.py:29
+msgid "vim-like"
+msgstr "Wie in Vim"
+
+#: ide/models/user.py:30
+msgid "emacs-like"
+msgstr "Wie in Emacs"
+
+#: ide/models/user.py:43
+msgid "Using spaces"
+msgstr "Mit Leerzeichen"
+
+#: ide/models/user.py:44
+msgid "Using tabs"
+msgstr "Mit Tabulatoren"
+
+#. This word needs to be able to wrap somewhere to fit.
+#: ide/models/user.py:50
+msgid "Autocompletion"
+msgstr "Autovervoll­ständigung"
+
+#: ide/models/user.py:51
+msgid "Keybinds"
+msgstr "Tasten"
+
+#: ide/models/user.py:52
+msgid "Theme"
+msgstr "Thema"
+
+#: ide/models/user.py:54
+msgid "Tab width"
+msgstr "Tabweite"
+
+#: ide/templates/ide/gist-import.html:6
+msgid "You are going to create a project based on a template."
+msgstr "Du erstellst ein Projekt basierend auf einer Vorlage."
+
+#: ide/templates/ide/gist-import.html:11
+msgid "Create Project"
+msgstr "Projekt erstellen"
+
+#: ide/templates/ide/index.html:11 ide/templates/ide/project.html:33
+#: ide/templates/ide/settings.html:11
+msgid "Projects"
+msgstr "Projekte"
+
+#: ide/templates/ide/index.html:12 ide/templates/ide/project.html:34
+#: ide/templates/ide/project.html.py:46 ide/templates/ide/settings.html:12
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: ide/templates/ide/index.html:13 ide/templates/ide/project.html:35
+#: ide/templates/ide/settings.html:13
+msgid "Sign out"
+msgstr "Abmelden"
+
+#: ide/templates/ide/index.html:19
+msgid "All your projects"
+msgstr "All deine Projekte"
+
+#: ide/templates/ide/index.html:21 ide/templates/ide/index.html.py:119
+#: ide/templates/ide/project.html:175 ide/templates/ide/project.html.py:204
+msgid "Create"
+msgstr "Erstellen"
+
+#: ide/templates/ide/index.html:22 ide/templates/ide/index.html.py:191
+msgid "Import"
+msgstr "Import"
+
+#: ide/templates/ide/index.html:30
+msgid "Project"
+msgstr "Projekt"
+
+#: ide/templates/ide/index.html:31
+msgid "Last modified"
+msgstr "Zuletzt bearbeitet"
+
+#: ide/templates/ide/index.html:32
+#, fuzzy
+msgid "Last built"
+msgstr "Letzter Build"
+
+#: ide/templates/ide/index.html:43
+msgid "Successful"
+msgstr "Erfolgreich"
+
+#: ide/templates/ide/index.html:59
+msgid "You don't have any projects yet."
+msgstr "Du hast noch keine Projekte."
+
+#: ide/templates/ide/index.html:66
+msgid "Create New Project"
+msgstr "Erstelle ein neues Projekt"
+
+#: ide/templates/ide/index.html:72 ide/templates/ide/index.html.py:137
+#: ide/templates/ide/index.html:158 ide/templates/ide/project/settings.html:8
+msgid "Project name"
+msgstr "Projektname"
+
+#: ide/templates/ide/index.html:78
+msgid "Project type"
+msgstr "Projekttyp"
+
+#: ide/templates/ide/index.html:91
+msgid "Empty project"
+msgstr "Leeres Projekt"
+
+#: ide/templates/ide/index.html:93
+msgid "Standard Templates"
+msgstr "Standard-Vorlagen"
+
+#: ide/templates/ide/index.html:100
+msgid "SDK demos"
+msgstr "SDK-Beispiele"
+
+#: ide/templates/ide/index.html:107
+msgid "Examples"
+msgstr "Beispiele"
+
+#: ide/templates/ide/index.html:120 ide/templates/ide/index.html.py:192
+#: ide/templates/ide/project.html:174 ide/templates/ide/project.html.py:203
+#: ide/templates/ide/project.html:233 ide/templates/ide/project.html.py:256
+#: ide/templates/ide/project.html:330 ide/templates/ide/project.html.py:343
+#: root/templates/root/index.html:106
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: ide/templates/ide/index.html:125
+msgid "Import Existing Project"
+msgstr "Bestehendes Projekt importieren"
+
+#: ide/templates/ide/index.html:129
+msgid "Upload Zip"
+msgstr "ZIP hochladen"
+
+#: ide/templates/ide/index.html:130
+msgid "Import from GitHub"
+msgstr "Von GitHub importieren"
+
+#: ide/templates/ide/index.html:143
+msgid "Zip file"
+msgstr "ZIP-Datei"
+
+#: ide/templates/ide/index.html:146
+msgid "This must be a zip file containing a standard Pebble project."
+msgstr "Dies muss eine ZIP-Datei sein, die ein normales Pebble-Projekt enthält."
+
+#: ide/templates/ide/index.html:164
+msgid "GitHub Project"
+msgstr "GitHub Projekt"
+
+#: ide/templates/ide/index.html:170
+msgid "Branch (optional)"
+msgstr "Branch (optional)"
+
+#: ide/templates/ide/index.html:177
+msgid "Use as Git remote"
+msgstr "Als Git-Remote verwenden"
+
+#: ide/templates/ide/project.html:47
+msgid "Compilation"
+msgstr "Kompilierung"
+
+#: ide/templates/ide/project.html:49
+msgid "Source files"
+msgstr "Quelldateien"
+
+#: ide/templates/ide/project.html:50 ide/templates/ide/project.html.py:54
+msgid "Add new"
+msgstr "Neu..."
+
+#: ide/templates/ide/project.html:52
+msgid "Worker source"
+msgstr "Worker-Quelltext"
+
+#: ide/templates/ide/project.html:54
+msgid "Resources"
+msgstr "Ressourcen"
+
+#: ide/templates/ide/project.html:89
+msgid "Preparing autocomplete…"
+msgstr "Autovervollständigung wird vorbereitet..."
+
+#: ide/templates/ide/project.html:116
+msgid "Create new file"
+msgstr "Erstelle eine neue Datei"
+
+#: ide/templates/ide/project.html:122
+msgid "File type"
+msgstr "Dateityp"
+
+#: ide/templates/ide/project.html:125
+msgid "C file"
+msgstr "C-Datei"
+
+#: ide/templates/ide/project.html:126
+msgid "JavaScript file"
+msgstr "JavaScript-Datei"
+
+#: ide/templates/ide/project.html:127
+msgid "Window Layout"
+msgstr "Window-Layout"
+
+#: ide/templates/ide/project.html:133 ide/templates/ide/project.html.py:157
+msgid "Filename"
+msgstr "Dateiname"
+
+#. For clarification, current targets are: "App / Watchface" and "Background worker".
+#: ide/templates/ide/project.html:139
+msgctxt "compilation target"
+msgid "Target"
+msgstr "Ziel"
+
+#: ide/templates/ide/project.html:142
+msgid "App / Watchface"
+msgstr "App / Watchface"
+
+#: ide/templates/ide/project.html:143
+msgid "Background worker"
+msgstr "Background-Worker"
+
+#: ide/templates/ide/project.html:149
+msgid "Create header"
+msgstr "Header-Datei erstellen"
+
+#: ide/templates/ide/project.html:165
+msgid "Window name"
+msgstr "Fenstername"
+
+#: ide/static/ide/js/github.js:8
+msgid "That repo does not exist. Would you like to create it?"
+msgstr "Dieses Repository existiert nicht. Möchtest du es erstellen?"
+
+#: ide/templates/ide/project.html:187
+msgid "Repo Name"
+msgstr "Repo-Name"
+
+#: ide/templates/ide/project.html:196
+msgid "Description <span class=\"muted\">(optional)</span>"
+msgstr "Beschreibung<span class=\"muted\">(optional)</span>"
+
+#: ide/templates/ide/project.html:211 ide/templates/ide/project/github.html:47
+msgid "Push New Commit"
+msgstr "Neuen Commit pushen"
+
+#: ide/templates/ide/project.html:217
+msgid "Commit Summary"
+msgstr "Commit-Zusammenfassung"
+
+#: ide/templates/ide/project.html:219
+msgctxt "sample commit summary"
+msgid "Fix something useful."
+msgstr "Ein behobenes Problem oder neues Feature..."
+
+#: ide/templates/ide/project.html:223
+msgid "Extended description <span class=\"muted\">(optional)</span>"
+msgstr "Erweiterte Beschreibung <span class=\"muted\">(optional)</span>"
+
+#: ide/templates/ide/project.html:234
+msgid "Commit"
+msgstr "Commit"
+
+#: ide/templates/ide/project.html:241 ide/templates/ide/project/github.html:48
+msgid "Pull Latest Commit"
+msgstr "Neuesten Commit pullen"
+
+#: ide/templates/ide/project.html:245
+msgid "<p>Are you sure you want to pull the latest commit? Doing so will <em>overwrite</em> everything currently in your project.</p>\n"
+"<p>There will be no further warnings and no opportunity to merge. This cannot be undone.</p>"
+msgstr "<p>Bist du sicher, dass du den neusten Commit pullen willst? Dadurch wird alles in deinem Projekt <em>überschrieben</em></p>\n"
+"<p>Es wird keine weiteren Warnungen und keine Möglichkeit zu einem Merge geben. Dies kann nicht rückgängig gemacht werden.<p>"
+
+#: ide/templates/ide/project.html:249
+msgid "Pulling latest commit from GitHub…"
+msgstr "Neuesten Commit von GitHub pullen..."
+
+#: ide/templates/ide/project.html:257
+msgctxt "button label"
+msgid "Pull"
+msgstr "Pull"
+
+#: ide/templates/ide/project.html:285
+msgid "Install App"
+msgstr "App installieren"
+
+#: ide/templates/ide/project.html:288
+msgid "Installing app on your watch…"
+msgstr "Installiere die App auf deiner Uhr..."
+
+#: ide/templates/ide/project.html:294 ide/templates/ide/project.html.py:310
+#: ide/templates/ide/project.html:402
+msgid "Dismiss"
+msgstr "Verwerfen"
+
+#: ide/templates/ide/project.html:295
+msgctxt "button to look at logs"
+msgid "View logs"
+msgstr "Logs anschauen"
+
+#: ide/templates/ide/project.html:301
+msgid "Taking Screenshot"
+msgstr "Screenshot wird aufgenommen"
+
+#: ide/templates/ide/project.html:304
+msgid "Taking screenshot…"
+msgstr "Screenshot wird aufgenommen..."
+
+#: ide/templates/ide/project.html:331 root/templates/common/base.html:47
+msgid "Okay"
+msgstr "Okay"
+
+#: ide/templates/ide/project.html:344
+msgid "Continue"
+msgstr "Fortfahren"
+
+#: ide/templates/ide/settings.html:20
+msgid "Editor settings"
+msgstr "Editor-Einstellungen"
+
+#: ide/templates/ide/settings.html:24
+msgid "Settings saved!"
+msgstr "Einstellungen gespeichert!"
+
+#: ide/templates/ide/settings.html:40
+msgid "Submit"
+msgstr "Absenden"
+
+#: ide/templates/ide/settings.html:41
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#: ide/templates/ide/settings.html:47
+msgid "GitHub Integration"
+msgstr "GitHub-Integration"
+
+#: ide/templates/ide/settings.html:54
+msgid "Re-authenticate"
+msgstr "Neu authentifizieren"
+
+#: ide/templates/ide/settings.html:55
+msgid "Unlink account"
+msgstr "Kontoverbindung trennen"
+
+#: ide/templates/ide/settings.html:57
+msgid "Link your GitHub account"
+msgstr "Dein GitHub-Konto verbinden"
+
+#: ide/templates/ide/settings.html:60
+msgid "Connecting your GitHub account enables you to connect your projects to GitHub repositories."
+msgstr "Das Verbinden deines GitHub-Kontos erlaubt dir Projekte mit GitHub-Repos zu verbinden."
+
+#. This translation doesn't fit (it's truncated after "au").
+#: ide/templates/ide/project/compile.html:16
+msgid "Install and Run"
+msgstr "Installieren & Los"
+
+#: ide/templates/ide/project/compile.html:17
+msgid "View app logs"
+msgstr "App-Logs anschauen"
+
+#: ide/templates/ide/project/compile.html:18
+msgid "Screenshot"
+msgstr "Screenshot"
+
+#: ide/templates/ide/project/compile.html:31
+msgid "Status:"
+msgstr "Status:"
+
+#: ide/templates/ide/project/compile.html:32
+msgid "Size:"
+msgstr "Größe:"
+
+#: ide/templates/ide/project/compile.html:33
+msgid "Available App RAM:"
+msgstr "Verfügbarer App-Arbeitsspeicher"
+
+#: ide/templates/ide/project/compile.html:34
+msgid "Available Worker RAM:"
+msgstr "Verfügbarer Worker-Arbeitsspeicher"
+
+#: ide/templates/ide/project/compile.html:38
+msgid "Run build"
+msgstr "Build ausführen"
+
+#: ide/templates/ide/project/compile.html:39
+msgid "Get PBW"
+msgstr "PBW ziehen"
+
+#: ide/static/ide/js/compile.js:25
+msgid "Build log"
+msgstr "Build-Protokoll"
+
+#: ide/templates/ide/project/compile.html:47
+msgctxt "number symbol"
+msgid "#"
+msgstr "#"
+
+#: ide/templates/ide/project/compile.html:48
+msgid "Date"
+msgstr "Datum"
+
+#: ide/templates/ide/project/compile.html:49
+msgid "Status"
+msgstr "Status"
+
+#: ide/static/ide/js/ib/layer.js:20
+msgid "Size"
+msgstr "Größe"
+
+#: ide/templates/ide/project/github.html:8
+msgid "Github Repo"
+msgstr "GitHub Repository"
+
+#: ide/templates/ide/project/github.html:14
+msgctxt "git branch"
+msgid "Branch"
+msgstr "Branch"
+
+#: ide/templates/ide/project/github.html:20
+msgctxt "button label"
+msgid "Pull changes"
+msgstr "Änderungen pullen"
+
+#: ide/templates/ide/project/github.html:23
+msgid "Manually"
+msgstr "Manuell"
+
+#: ide/templates/ide/project/github.html:24
+msgid "Automatically"
+msgstr "Automatisch"
+
+#: ide/templates/ide/project/github.html:26
+msgid "If you select 'Automatically', the contents of this project <em>will be overwritten</em> every time you push to your repo from elsewhere, <em>without prompting you</em>."
+msgstr "Wenn du \"automatisch\" wählst, werden die Inhalte aus diesem Projekt <em>jedes mal ungefragt überschrieben</em> wenn du von wo anders in das Repo pushst."
+
+#: ide/templates/ide/project/github.html:30
+msgid "After pulling"
+msgstr "Nach dem Pullen"
+
+#: ide/templates/ide/project/github.html:33
+msgid "Do nothing"
+msgstr "Tue nichts"
+
+#: ide/templates/ide/project/github.html:34
+msgid "Build automatically"
+msgstr "Automatisch builden"
+
+#: ide/static/ide/js/editor.js:469
+msgid "Save"
+msgstr "Speichern"
+
+#: ide/templates/ide/project/resource.html:8
+msgid "Resource type"
+msgstr "Ressourcentyp"
+
+#: ide/templates/ide/project/resource.html:11
+msgid "PNG image"
+msgstr "PNG-Bild"
+
+#: ide/templates/ide/project/resource.html:13
+msgid "PNG with transparency"
+msgstr "PNG mit Transparenz"
+
+#: ide/templates/ide/project/resource.html:14
+msgid "TrueType font"
+msgstr "TrueType-Schrift"
+
+#: ide/templates/ide/project/resource.html:15
+msgid "Raw binary blob"
+msgstr "Rohe Binäre Daten"
+
+#: ide/templates/ide/project/resource.html:21
+msgid "File"
+msgstr "Datei"
+
+#: ide/templates/ide/project/resource.html:24
+msgid "You can have multiple Pebble resources from a single file (for different sizes, etc.)"
+msgstr "Du kannst mehrere Pebble-Ressourcen aus einer einzigen Datei laden (für verschiedene Größen usw.)"
+
+#: ide/templates/ide/project/resource.html:36
+msgid "Download uploaded resource"
+msgstr "Hochgeladene Ressource herunterladen"
+
+#: ide/static/ide/js/resources.js:19
+msgid "Identifier"
+msgid_plural "Identifiers"
+msgstr[0] "Identifikator"
+msgstr[1] "Identifikatoren"
+
+#: ide/templates/ide/project/resource.html:43
+#: ide/templates/ide/project/resource.html:52
+msgid "This is used in your code and must be a valid C identifier."
+msgstr "Dieser wird im Quelltext verwendet und muss ein gültiger C-Variablenname sein."
+
+#: ide/templates/ide/project/resource.html:53
+msgid "It must end with the desired font size."
+msgstr "Muss mit der gewünschten Schriftgröße enden."
+
+#: ide/templates/ide/project/resource.html:57
+msgctxt "like letters and numbers"
+msgid "Characters"
+msgstr "Zeichen"
+
+#: ide/static/ide/js/resources.js:185
+msgid "A PCRE regular expression that restricts characters."
+msgstr "Ein regulärer Ausdruck (PCRE) der die Zeichen beschränkt."
+
+#: ide/templates/ide/project/resource.html:65
+msgid "Tracking adjust"
+msgstr "Vorlaufs-Anpassung"
+
+#: ide/templates/ide/project/resource.html:68
+msgid "Number of additional pixels by which to shift each character."
+msgstr "Anzahl der zusätzlichen Pixel, um die jedes Zeichen verschoben werden soll."
+
+#: ide/static/ide/js/editor.js:471
+msgid "Delete"
+msgstr "Löschen"
+
+#: ide/templates/ide/project/resource.html:86
+msgid "Another font"
+msgstr "Eine weitere Schrift"
+
+#: ide/templates/ide/project/settings.html:17
+msgid "App kind"
+msgstr "App-Typ"
+
+#: ide/templates/ide/project/settings.html:20
+msgid "Watchapp"
+msgstr "Watchapp"
+
+#: ide/templates/ide/project/settings.html:21
+msgid "Watchface"
+msgstr "Watchface"
+
+#: ide/templates/ide/project/settings.html:26
+msgid "Short App Name"
+msgstr "Kurzer App-Name"
+
+#: ide/templates/ide/project/settings.html:28
+#: ide/templates/ide/project/settings.html:37
+msgctxt "sample app name"
+msgid "Demo App"
+msgstr "Beispiel-App"
+
+#: ide/templates/ide/project/settings.html:30
+msgid "App's short name. This will appear on the watch."
+msgstr "Kurzer Name der App. Dieser wird auf der Uhr angezeigt."
+
+#: ide/templates/ide/project/settings.html:35
+msgid "Long App Name"
+msgstr "Langer App-Name"
+
+#: ide/templates/ide/project/settings.html:39
+msgid "App's long name. This will appear in the app list on the phone."
+msgstr "Der lange Name der App. Dieser wird in der App-Liste auf dem Handy angezeigt."
+
+#: ide/templates/ide/project/settings.html:44
+msgid "Menu image"
+msgstr "Menügrafik"
+
+#: ide/templates/ide/project/settings.html:47
+msgid "None"
+msgstr "Keins"
+
+#: ide/templates/ide/project/settings.html:47
+msgid "Default"
+msgstr "Standard"
+
+#: ide/templates/ide/project/settings.html:50
+msgid "Displayed on the Pebble's main menu. Must be a 28x28 file in PNG format."
+msgstr "Wird im Hauptmenü der Pebble angezeigt. Dies muss ein PNG-Bild (28x28) sein."
+
+msgid "Displayed on the Pebble's main menu. Must be a 25x25 file in PNG format."
+msgstr "Wird im Hauptmenü der Pebble angezeigt. Dies muss ein PNG-Bild (25x25) sein."
+
+#: ide/templates/ide/project/settings.html:55
+msgid "Company Name"
+msgstr "Name der Firma"
+
+#: ide/templates/ide/project/settings.html:57
+msgctxt "sample company name"
+msgid "Demo Company"
+msgstr "Musterfirma"
+
+#: ide/templates/ide/project/settings.html:59
+msgid "Name of the app's developer."
+msgstr "Name des App-Entwicklers."
+
+#: ide/templates/ide/project/settings.html:74
+msgid "Version label"
+msgstr "Version"
+
+#: ide/templates/ide/project/settings.html:79
+msgid "App version. Takes the format major[.minor], where major and minor are between 0 and 255."
+msgstr "Die Version der App. Das Format ist major[.minor], wobei major und minor zwischen 0 und 255 sein müssen."
+
+#: ide/templates/ide/project/settings.html:84
+msgid "App UUID"
+msgstr "App UUID"
+
+#: ide/templates/ide/project/settings.html:88
+msgid "A unique identifier for the app."
+msgstr "Ein eindeutiger Identifikator der App."
+
+#: ide/templates/ide/project/settings.html:95
+msgid "PebbleKit JS Message Keys"
+msgstr "PebbleKit JS Message Keys"
+
+#: ide/templates/ide/project/settings.html:100
+msgid "Key Name"
+msgstr "Key-Name"
+
+#: ide/templates/ide/project/settings.html:101
+msgid "Key ID"
+msgstr "Key-ID"
+
+#: ide/static/ide/js/settings.js:202
+msgid "New Entry"
+msgstr "Neuer Eintrag"
+
+#: ide/templates/ide/project/settings.html:121
+msgid "A mapping from strings to integers used by PebbleKit JS."
+msgstr "Eine Zuordnung von Strings zu Zahlen für die Verwendung in PebbleKit JS."
+
+#: ide/templates/ide/project/settings.html:126
+msgctxt "checkbox label"
+msgid "Check Javascript"
+msgstr "JavaScript prüfen"
+
+#: ide/templates/ide/project/settings.html:132
+msgctxt "checkbox label"
+msgid "Uses Location"
+msgstr "Verwendet Standort"
+
+#: ide/templates/ide/project/settings.html:138
+msgctxt "checkbox label"
+msgid "Configurable"
+msgstr "Konfigurierbar"
+
+#: ide/templates/ide/project/settings.html:146
+msgid "Save changes"
+msgstr "Änderungen speichern"
+
+#: ide/templates/ide/project/settings.html:147
+msgid "Download as zip"
+msgstr "Als ZIP herunterladen"
+
+#: ide/static/ide/js/settings.js:145
+msgid "Delete Project"
+msgstr "Projekt löschen"
+
+#: ide/templates/ide/project/ui-editor.html:12
+msgid "Properties"
+msgstr "Einstellungen"
+
+#: ide/templates/ide/project/ui-editor.html:13
+msgid "Toolkit"
+msgstr "Toolkit"
+
+#: ide/utils/project.py:34
+msgid "No project root found."
+msgstr "Keine Projektwurzel gefunden."
+
+#: ide/utils/sdk.py:135 ide/utils/sdk.py:169 ide/utils/sdk.py:187
+msgid "Unknown project type %s"
+msgstr "Unbekannter Projekttyp %s."
+
+#: root/templates/common/base-narrow.html:24
+msgid "CloudPebble was created by Katharine Berry and is now run by Pebble."
+msgstr "CloudPebble wurde von Katharine Berry entwickelt und wird nun von Pebble weitergeführt."
+
+#. Translators: Modal prompt header
+#: root/templates/common/base.html:39
+msgid "Welcome Back"
+msgstr "Willkommen zurück"
+
+#. Translators: This is followed by a list of changes.
+#: root/templates/common/base.html:43
+msgid "Here's what's changed since the last time you were here:"
+msgstr "Seitdem du das letzte Mal hier warst hat sich Folgendes geändert:"
+
+#: root/templates/root/index.html:11
+msgid "Sign in"
+msgstr "Anmelden"
+
+#: root/templates/root/index.html:12
+msgid "Close"
+msgstr "Schließen"
+
+#: root/templates/root/index.html:22
+msgid "Already have a Pebble account?"
+msgstr "Du hast bereits ein Pebble-Konto?"
+
+#: root/templates/root/index.html:23
+msgid "This is the same account you use to log in to the Pebble Forums, Developer Portal and phone app. Don't have a Pebble account? Create one!"
+msgstr "Dies ist das gleiche Konto, mit dem du dich in den Pebble-Foren, dem Entwicklerportal und in der Pebble-App auf dem Handy anmeldest. Du hast noch kein Pebble-Konto? Erstelle eins!"
+
+#: root/templates/root/index.html:24
+msgid "Log in with your Pebble account"
+msgstr "Mit deinem Pebble-Konto anmelden"
+
+#: root/templates/root/index.html:25
+msgid "Create Pebble account"
+msgstr "Ein Pebble-Konto erstellen"
+
+#: root/templates/root/index.html:36
+msgid "Have a legacy CloudPebble account?"
+msgstr "Hast du ein altes CloudPebble-Konto?"
+
+#: root/templates/root/index.html:37
+msgid "Log in to link it with your Pebble account. Legacy\n"
+"accounts are being phased out in favour of the\n"
+"Pebble account system. Once you log in you will be\n"
+"required to link your accounts;\n"
+"henceforth you must log in with your pebble account."
+msgstr "Melde dich an um es mit deinem Pebble-Konto zu verbinden. Alte Konten werden ausgemustert und durch Pebble-Konten ersetzt. Sobald du dich angemeldet hast wirst du aufgefordert, die Konten zu verknüpfen; ab dann musst du dich mit deinem Pebble-Konto anmelden."
+
+#: root/templates/root/index.html:42
+msgid "Link to your Pebble account"
+msgstr "Dein Pebble-Konto verknüpfen"
+
+#: root/templates/root/index.html:55
+msgid "Online Pebble Development"
+msgstr "Online-Pebble-Entwicklung"
+
+#: root/templates/root/index.html:56
+msgid "Write apps without dealing with Linux, virtual machines, compilers, or Python."
+msgstr "Schreibe Apps ohne dich mit Linux, virtuellen Maschinen, Kompilern oder Python herumzuschlagen."
+
+#: root/templates/root/index.html:57
+msgid "Get Started"
+msgstr "Loslegen"
+
+#: root/templates/root/index.html:62
+msgid "Nothing to install"
+msgstr "Nichts zu installieren"
+
+#: root/templates/root/index.html:63
+msgid "Write apps directly in your browser. Skip all setup instructions!"
+msgstr "Apps direkt in deinem Browser entwickeln und so alle Vorbereitungsschritte überspringen."
+
+#: root/templates/root/index.html:67
+msgid "No JSON to edit"
+msgstr "Kein JSON zum Editieren"
+
+#: root/templates/root/index.html:68
+msgid "Resources are managed through a friendly user interface"
+msgstr "Ressourcen werden über eine freundliche Benutzeroberfläche verwaltet"
+
+#. Translators: This is "cloud" as in the internet, but used as a pun on cloud as in sky.
+#: root/templates/root/index.html:73
+msgid "Cloudy"
+msgstr "In der Cloud"
+
+#: root/templates/root/index.html:74
+msgid "It's on the internet. Accessible from anywhere! That's a good thing, right?"
+msgstr "Es ist im Internet. Erreichbar von überall. Das ist gut, oder nicht?"
+
+#: root/templates/root/index.html:78
+msgid "More to come"
+msgstr "Und bald noch viel mehr"
+
+#: root/templates/root/index.html:79
+msgid "This is only the beginning!<br>There's much more to come."
+msgstr "Dies ist nur der Anfang!<br>Bald gibt es noch viel mehr."
+
+#: root/templates/root/index.html:88
+msgid "Log in with legacy account"
+msgstr "Mit einem alten CloudPebble-Konto anmelden"
+
+#: root/templates/root/index.html:93
+msgid "Username"
+msgstr "Benutzername"
+
+#: root/templates/root/index.html:97
+msgid "Password"
+msgstr "Passwort"
+
+#: root/templates/root/index.html:105
+msgid "Log in"
+msgstr "Anmelden"
+
+#: ide/templates/ide/index.html:28 root/templates/root/index.html:20
+msgid "Due to a recent Chrome update, we have been forced to disable TLS site-wide. Security will be re-enabled in a few days."
+msgstr "Wegen eines kürzlich erschienenen Chrome-Updates sind wir gezwungen gewesen, TLS auf der gesamten Seite abzuschalten. Sicherheit wird in einigen Tagen wiederhergestellt."
+
+#: ide/templates/ide/project/compile.html:9
+msgid "Make sure that the Developer Connection is enabled on your phone, and you are\n"
+"running at least iOS app version 2.5 or Android version 2.1 (beta)."
+msgstr "Stelle sicher, dass die Entwickler-Verbindung auf deinem Handy aktiviert ist und das du mindestens Version 2.5 unter iOS oder 2.1 (beta) unter Android verwendest."
+
+#: ide/models/user.py:53
+msgctxt "number of spaces"
+msgid "Indents"
+msgstr "Einrückungen"
+
+#: ide/templates/ide/project/compile.html:29
+msgctxt "date/time"
+msgid "Started:"
+msgstr "Gestartet:"
+
+#: ide/templates/ide/project/compile.html:30
+msgctxt "duration"
+msgid "Build time:"
+msgstr "Build-Dauer:"
+
+#: ide/templates/ide/project/compile.html:24
+msgid "Last build"
+msgstr "Letzter Build"
+
+#: ide/templates/ide/project.html:403
+#, fuzzy
+msgid "Download"
+msgstr "Als ZIP herunterladen"
+
+#: ide/templates/ide/project/compile.html:9
+#, fuzzy
+msgid "Make sure that the Developer Connection is enabled on your phone, and you are\n"
+"running at least phone app version 2.5 (iOS) or 2.1 (Android)."
+msgstr "Stelle sicher, dass die Entwickler-Verbindung auf deinem Handy aktiviert ist, und dass du mindestens Version 2.5 unter iOS oder 2.1 (beta) unter Android verwendest."
+
+#: ide/templates/ide/project/resource.html:72
+msgid "Compatibility"
+msgstr ""
+
+#: ide/templates/ide/project/resource.html:75
+msgid "Latest"
+msgstr ""
+
+#: ide/templates/ide/project/resource.html:76
+msgid "2.7 and earlier"
+msgstr ""
+
+#: ide/templates/ide/project/resource.html:78
+msgid "Determines the font rendering algorithm to use. The latest looks better, but can produce slightly larger characters."
+msgstr ""
+

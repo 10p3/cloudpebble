@@ -1,0 +1,661 @@
+{% extends "common/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block title %}CloudPebble – {{ project.name }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'CodeMirror/addon/hint/show-hint.css' %}">
+<link rel="stylesheet" href="{% static 'CodeMirror/addon/dialog/dialog.css' %}">
+<link rel="stylesheet" href="{% static 'CodeMirror/lib/codemirror.css' %}">
+<link rel="stylesheet" href="{% static 'CodeMirror/theme/monokai.css' %}">
+<link rel="stylesheet" href="{% static 'CodeMirror/theme/eclipse.css' %}">
+<link rel="stylesheet" href="{% static 'CodeMirror/theme/blackboard.css' %}">
+<link rel="stylesheet" href="{% static 'CodeMirror/theme/solarized.css' %}">
+<link rel="stylesheet" href="{% static 'CodeMirror/addon/fold/foldgutter.css' %}">
+{% if font_css %}
+<link rel="stylesheet" href="{{ font_css }}" />
+{% endif %}
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Serif:700|Roboto+Condensed|Roboto:700">
+<link rel="stylesheet" href="/static/common/fonts/raster-gothic.css">
+
+<link rel="stylesheet" href="{%  static 'jquery-textext/src/css/textext.core.css' %}" type="text/css" />
+<link rel="stylesheet" href="{%  static 'jquery-textext/src/css/textext.plugin.tags.css' %}" type="text/css" />
+<link rel="stylesheet" href="{%  static 'jquery-textext/src/css/textext.plugin.autocomplete.css' %}" type="text/css" />
+<link rel="stylesheet" href="{%  static 'jquery-textext/src/css/textext.plugin.focus.css' %}" type="text/css" />
+<link rel="stylesheet" href="{%  static 'jquery-textext/src/css/textext.plugin.prompt.css' %}" type="text/css" />
+<link rel="stylesheet" href="{%  static 'jquery-textext/src/css/textext.plugin.arrow.css' %}" type="text/css" />
+
+<link rel="stylesheet" href="{% static 'ide/css/ide.css' %}">
+<link rel="stylesheet" href="{% static 'ide/css/ib.css' %}">
+<link rel="stylesheet" href="{% static 'ide/css/codemirror-default.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<div class="header">
+{#    <div class="container">#}
+        <h1 class="cloudpebble-logo" style="padding-left: 40px;">
+            <span class="cloudpebble-logo-cloud">Cloud</span><span class="cloudpebble-logo-pebble">Pebble</span>
+        </h1>
+        <div class="header-right">
+            <ul class="nav-pills">
+                <li><a href="https://developer.rebble.io/developer.pebble.com/index.html" target="_blank" class="btn">{% trans 'Documentation' %}</a></li>
+                <li><a href="{% url 'ide:index' %}" class="btn">{% trans 'Projects' %}</a></li>
+                <li><a href="{% url 'ide:settings' %}" class="btn">{% trans 'Settings' %}</a></li>
+                <li><a href="{% url 'logout' %}" class="btn">{% trans 'Sign out' %}</a></li>
+            </ul>
+        </div>
+{#    </div>#}
+</div>
+<div class="project-container">
+    <div class="row-fluid">
+        <div id="sidebar-wrapper">
+            <div>
+                <div id="emulator-container">
+                    <canvas width="144" height="168"></canvas>
+                    <div class="up qemu-button"></div>
+                    <div class="down qemu-button"></div>
+                    <div class="back qemu-button"></div>
+                    <div class="select qemu-button"></div>
+                    <img src="{% static 'ide/img/configure.png' %}" class="configure">
+                </div>
+                <ul class="nav-list" id="sidebar">
+                    <li class="nav-header project-name">{{ project.name }}</li>
+                    <li class="nav-header" id="sidebar-pane-settings"><a href="#">{% trans 'Settings' %}</a></li>
+                    <li class="nav-header sdk3-only" id="sidebar-pane-timeline"><a href="#">Timeline (Preview)</a></li>
+                    <li class="nav-header" id="sidebar-pane-compile"><a href="#">{% trans 'Compilation' %}</a></li>
+                    {% if project.project_type == 'package' or project.project_type == 'native' %}
+                        <li class="nav-header sdk3-only" id="sidebar-pane-dependencies"><a href="#">{% trans 'Dependencies' %}</a>
+                            <span class="spinner spinner-dark hide"></span>
+                        </li>
+                    {% endif %}
+                    <li id="sidebar-pane-github" class="nav-header {%if not project.owner.github%}disabled{%endif%}"><a href="#">GitHub</a></li>
+                    <li class="nav-section">
+                        <ul class="nav-list" id="sidebar-sources">
+
+                        </ul>
+                    </li>
+                    {% if project.project_type != 'simplyjs' and project.project_type != 'rocky' %}
+                    <li class="nav-section">
+                        <span class="nav-header">{% trans 'Resources' %}</span>
+                        <button class="btn btn-small" id="sidebar-pane-new-resource">{% trans 'Add new' %}</button>
+                        <ul class="nav-list" id="sidebar-resources">
+
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div id="pane-parent">
+            <div id="main-pane" style="display: none;">
+            </div>
+            <div id="progress-pane">
+                <div class="row-fluid">
+                    <div class="offset2 span8">
+                        <div style="margin-top: 200px;">
+                            <div class="progress progress-striped active">
+                                <div class="bar" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+        <p class="small-print">
+            {% get_current_language as lang %}
+            {% if lang == 'en' %}
+            Questions? Email us at <a href="mailto:cloudpebble@getpebble.com">cloudpebble@getpebble.com</a>.
+            {% endif %}
+            {% blocktrans with cookie="https://getpebble.com/legal/cookies/" privacy="https://getpebble.com/legal/privacy/" %}See our <a href="{{ cookie }}" target="_blank">cookie</a> and <a href="{{ privacy }}" target="_blank">privacy</a> policies.{% endblocktrans %}
+        </p>
+        <div class="pebble-logo">
+            <div class="hide footer-credits">
+                <span class="katharine-at">Katharine @</span>
+                <a href="http://pbldev.io" target="_blank"><img src="{% static 'root/images/pebble.png' %}"></a>
+            </div>
+            <div class="prepare-autocomplete katharine-at">{% trans 'Preparing autocomplete…' %}</div>
+        </div>
+        <form action="/i18n/setlang/" method="post" id="lang-select-form" class="lang-select project-page">
+            {% csrf_token %}
+            <select name="language" onchange="$('#lang-select-form').submit();">
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                    {{ language.name_local }}
+                </option>
+                {% endfor %}
+            </select>
+        </form>
+</div>
+
+{% include "ide/project/resource.html" %}
+{% include "ide/project/compile.html" %}
+{% include "ide/project/settings.html" %}
+{% include "ide/project/github.html" %}
+{% include "ide/project/ui-editor.html" %}
+{% include "ide/project/timeline.html" %}
+{% include "ide/project/dependencies.html" %}
+{% endblock %}
+
+{% block modals %}
+<!-- Create new file prompt -->
+<div id="help-prompt-holder"></div>
+<div id="editor-new-file-prompt" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>{% trans 'Create new file' %}</h3>
+    </div>
+    <form class="form-horizontal">
+        <div class="modal-body">
+            <div class="alert alert-error hide"></div>
+            <div class="control-group">
+                <label class="control-label" for="new-file-type">{% trans 'File type' %}</label>
+                <div class="controls">
+                    <select id="new-file-type">
+                        <option value="c" selected>{% trans 'C file' %}</option>
+                        <option value="js">{% trans 'JavaScript file' %}</option>
+                        <option value="json">{% trans 'JSON file' %}</option>
+                        <option value="layout">{% trans 'Window Layout' %}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="include-file-options file-group hide">
+                <div class="control-group">
+                    <label class="control-label" for="new-include-file-name">{% trans 'Include Name' %}</label>
+                    <div class="controls">
+                        <input type="text" id="new-include-file-name" pattern="[a-zA-Z0-9_-]+\.h$">
+                    </div>
+                </div>
+            </div>
+            <div class="c-file-options file-group">
+                <div class="control-group">
+                    <label class="control-label" for="new-c-file-name">{% trans 'Filename' %}</label>
+                    <div class="controls">
+                        <input type="text" id="new-c-file-name" pattern="[a-zA-Z0-9_-]+\.(c|h)$">
+                    </div>
+                </div>
+                <div class="control-group not-simplyjs not-pebblejs">
+                    <label class="control-label" for="new-c-target">{% trans 'Target' context "compilation target" %}</label>
+                    <div class="controls">
+                        <select id="new-c-target">
+                            <option value="app" selected>
+                                {% if project.project_type == 'package' %}
+                                    {% trans 'Private source' %}
+                                {% else %}
+                                    {% trans 'App / Watchface' %}
+                                {% endif %}
+                            </option>
+                            <option value="worker" class="native-only">{% trans 'Background worker' %}</option>
+                            <option value="public" class="package-only">{% trans 'Public header file' %}</option>
+                        </select>
+                        <img src="{% static 'ide/img/help.png' %}" class="field-help">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="new-c-generate-h">{% trans 'Create header' %}</label>
+                    <div class="controls">
+                        <input type="checkbox" id="new-c-generate-h">
+                    </div>
+                </div>
+            </div>
+            <div class="json-file-options file-group hide">
+                <div class="control-group">
+                    <label class="control-label" for="new-json-file-name">{% trans 'Filename' %}</label>
+                    <div class="controls">
+                        <input type="text" id="new-json-file-name" pattern="[a-zA-Z0-9_-]+\.json$">
+                    </div>
+                    <div class="control-group rocky-only">
+                        <label class="control-label" for="new-json-target">{% trans 'Target' context "compilation target" %}</label>
+                        <div class="controls">
+                            <select id="new-json-target">
+                                <option value="app" selected>{% trans 'RockyJS' %}</option>
+                                <option value="pkjs">{% trans 'PebbleKit JS' %}</option>
+                                <option value="common">{% trans 'Shared JSON' %}</option>
+                            </select>
+                            <img src="{% static 'ide/img/help.png' %}" class="field-help">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="js-file-options file-group hide">
+                <div class="control-group">
+                    <div id="js-file-name-option">
+                        <label class="control-label" for="new-js-file-name">{% trans 'Filename' %}</label>
+                        <div class="controls">
+                            <input type="text" id="new-js-file-name" pattern="[a-zA-Z0-9_-]+\.js$">
+                        </div>
+                    </div>
+                    <div class="control-group rocky-only">
+                        <label class="control-label" for="new-js-target">{% trans 'Target' context "compilation target" %}</label>
+                        <div class="controls">
+                            <select id="new-js-target">
+                                <option value="app" selected>{% trans 'RockyJS' %}</option>
+                                <option value="pkjs">{% trans 'PebbleKit JS' %}</option>
+                                <option value="common">{% trans 'Shared JS' %}</option>
+                            </select>
+                            <img src="{% static 'ide/img/help.png' %}" class="field-help">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layout-file-options file-group hide">
+                <div class="control-group">
+                    <label class="control-label" for="new-window-name">{% trans 'Window name' %}</label>
+                    <div class="controls">
+                        <input type="text" id="new-window-name" pattern="^[a-z]([a-z0-9_]*[a-z0-9])?$">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">{% trans 'Cancel' %}</button>
+        <button class="btn btn-primary" id="editor-create-file-button">{% trans 'Create' %}</button>
+    </div>
+</div>
+<!-- Create new repo prompt -->
+<div id="github-new-repo-prompt" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>Create New Repo</h3>
+    </div>
+    <form class="form-horizontal" style="margin-bottom: 0px; padding-bottom: 0px;">
+    <div class="modal-body">
+        <div class="alert alert-warning">{% trans 'That repo does not exist. Would you like to create it?' %}</div>
+        <div class="control-group">
+            <label class="control-label" for="github-new-repo">{% trans 'Repo Name' %}</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">{{ project.owner.github.username }}/</span>
+                    <input type="text" id="github-new-repo">
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="github-repo-description">{% trans 'Description <span class="muted">(optional)</span>' %}</label>
+            <div class="controls">
+                <input type="text" id="github-repo-description" class="span4">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">{% trans 'Cancel' %}</button>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Create' %}">
+    </div>
+    </form>
+</div>
+<!-- Commit prompt -->
+<div id="github-commit-prompt" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>{% trans 'Push New Commit' %}</h3>
+    </div>
+    <form class="form">
+        <div class="modal-body">
+            <div class="control-group">
+                <div class="alert hide"></div>
+                <label class="control-label" for="github-commit-summary">{% trans 'Commit Summary' %}</label>
+                <div class="controls">
+                    <input type="text" id="github-commit-summary" maxlength="50" placeholder="{% trans 'Fix something useful.' context "sample commit summary" %}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="github-commit-description">{% trans 'Extended description <span class="muted">(optional)</span>' %}</label>
+                <div class="controls">
+                    <textarea id="github-commit-description" rows="7"></textarea>
+                </div>
+            </div>
+            <div class="progress progress-striped active hide">
+                <div class="bar" style="width: 100%;"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn" data-dismiss="modal">{% trans 'Cancel' %}</button>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Commit' %}">
+        </div>
+    </form>
+</div>
+<!-- Pull confirmation/progress -->
+<div id="github-pull-prompt" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>{% trans 'Pull Latest Commit' %}</h3>
+    </div>
+    <div class="modal-body">
+        <div class="dire-warning">
+            {% blocktrans %}<p>Are you sure you want to pull the latest commit? Doing so will <em>overwrite</em> everything currently in your project.</p>
+<p>There will be no further warnings and no opportunity to merge. This cannot be undone.</p>{% endblocktrans %}
+        </div>
+        <div class="running hide">
+            <p>{% trans 'Pulling latest commit from GitHub…' %}</p>
+            <div class="progress progress-striped active">
+                <div class="bar" style="width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">{% trans 'Cancel' %}</button>
+        <button class="btn btn-danger" id="github-pull-prompt-confirm">{% trans 'Pull' context "button label" %}</button>
+    </div>
+</div>
+<!-- Phone waiting -->
+<div id="phone-waiting" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>Waiting for phone</h3>
+    </div>
+    <div class="modal-body text-center">
+        <p class="pending">Please check your phone for notices from the Pebble app.</p>
+        <p class="error text-error"></p>
+{#        <p><a href="#" id="phone-wait-retry">Retry</a></p>#}
+        <!--
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <div class="modal-footer">
+        <button data-dismiss="modal" class="btn hide dismiss-btn">Dismiss</button>
+        <button class="btn hide logs-btn btn-primary">View logs</button>
+    </div>
+    -->
+</div>
+<!-- Phone install progress -->
+<div id="phone-install-progress" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>{% trans 'Install App' %}</h3>
+    </div>
+    <div class="modal-body">
+        <p>{% trans 'Installing app on your watch…' %}</p>
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button data-dismiss="modal" class="btn hide dismiss-btn">{% trans 'Dismiss' %}</button>
+        <button class="btn hide logs-btn btn-primary">{% trans 'View logs' context "button to look at logs" %}</button>
+    </div>
+</div>
+<!-- Phone screenshot -->
+<div id="phone-screenshot-display" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>{% trans 'Taking Screenshot' %}</h3>
+    </div>
+    <div class="modal-body">
+        <p>{% trans 'Taking screenshot…' %}</p>
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 0%;"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button data-dismiss="modal" class="btn hide dismiss-btn">{% trans 'Dismiss' %}</button>
+    </div>
+</div>
+<!-- Command-P-->
+<div id="fuzzy-prompt" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header padded-modal-header">
+        <input type="text" id="fuzzy-prompt-input-value" autocomplete="off" placeholder="{% trans 'Search' %}">
+    </div>
+    <div class="modal-footer">
+        <div id="fuzzy-results">
+
+        </div>
+    </div>
+</div>
+<!-- Modal text prompt -->
+<div id="modal-text-input" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3 id="modal-text-input-title">Modal header</h3>
+    </div>
+    <div class="modal-body">
+        <div id="modal-text-input-errors"></div>
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label id="modal-text-input-prompt" for="modal-text-input-value">Modal text input prompt:</label>
+                <div class="controls">
+                    <input type="text" id="modal-text-input-value">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">{% trans 'Cancel' %}</button>
+        <button class="btn btn-primary" id="modal-text-confirm-button">{% trans 'Okay' %}</button>
+    </div>
+</div>
+<!-- Modal boolean confirmation prompt -->
+<div id="modal-warning-prompt" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3 id="modal-warning-prompt-title">Modal header</h3>
+    </div>
+    <div class="modal-body">
+        <p id="modal-warning-prompt-warning">Modal warning</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">{% trans 'Cancel' %}</button>
+        <button class="btn btn-danger" id="modal-warning-prompt-button">{% trans 'Continue' %}</button>
+    </div>
+</div>
+<!-- Modal link confirmation prompt -->
+<div id="modal-confirm-link-prompt" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3 id="modal-confirm-link-prompt-title">Modal header</h3>
+    </div>
+    <div class="modal-body">
+        <p id="modal-confirm-link-prompt-warning">Modal warning</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">{% trans 'Cancel' %}</button>
+        <a class="btn btn-danger" id="modal-confirm-link-prompt-button">{% trans 'Continue' %}</a>
+    </div>
+</div>
+<div id="export-progress" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>Exporting…</h3>
+    </div>
+    <div class="modal-body text-center" id="export-progress-text">
+        <img src="{% static 'ide/img/zip.png' %}" style="height: 200px; width: 200px; margin-top: 10px;">
+        <div class="progress active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="" class="download-btn btn btn-primary" style="display: none;" data-dismiss="modal">Download</a>
+        <button class="btn" data-dismiss="modal">Cancel</button>
+    </div>
+</div>
+<div id="generic-progress" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>Doing a thing…</h3>
+    </div>
+    <div class="modal-body text-center" id="generic-progress-text">
+        <p></p>
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
+    </div>
+</div>
+<!-- Android 2.1 beta download prompt -->
+<div id="modal-android-notes" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>Android App v2.1.0-beta9</h3>
+    </div>
+    <div class="modal-body">
+        <ul>
+            <li>This version of the Pebble Android app has been rewritten from the ground up to be more reliable
+                and give a better user experience.</li>
+            <li>Notifications are now available from all apps. You should now disable Pebble Notifier or similar apps
+                <ul>
+                    <li>The new <em>Notifications</em> menu includes an <em>All apps</em> option, where you can choose
+                        to receive notifications from any app on your device.</li>
+                    <li>Some popular apps are selected by default.</li>
+                    <li>Some apps in this list will be disabled if you have enabled built-in notifications (e.g. Gmail
+                        or calendar) to avoid generating duplicate notifications.</li>
+                </ul>
+            </li>
+            <li>In-progress phone calls can now be ended from your watch.</li>
+        </ul>
+        <strong>Please note:</strong>
+        <ul>
+            <li>This release is only supported on Android 4.3 and above.</li>
+            <li>Developers: datalogging compatibility is broken in this release. You will need to use the updated
+                PebbleKit 2.6 in order to use datalogging with this release.</li>
+            <li>You will be asked to log in to your Pebble account again after installing this release.</li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">{% trans 'Dismiss' %}</button>
+        <a href="https://www.dropbox.com/s/hjz0eoremh9m2gu/pebble-release-2.1.0-beta9-515.apk?dl=0" target="_blank" class="btn btn-primary">{% trans 'Download' %}</a>
+    </div>
+</div>
+<!-- QEMU sensor prompt -->
+<div id="qemu-sensor-prompt" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>{% trans 'Compass and Accelerometer' %}</h3>
+    </div>
+    <div class="modal-body">
+        <div>
+            {% blocktrans with url=phone_shorturl %}<p>You can use your mobile phone to send sensor data to the emulator.<br>
+            In your mobile browser, go to<br><span class="cpbl-url">{{ url }}</span><br>and enter this code:</p>{% endblocktrans %}
+            <p class="cpbl-token">…</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">{% trans 'Okay' %}</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+var PROJECT_ID = {{ project.id }};
+var USER_ID = {{ project.owner.id }};
+// Create consistency with Python, which will dump in capitalised booleans here.
+var True = true;
+var False = false;
+var USER_SETTINGS = {
+    theme: "{{ project.owner.settings.theme }}",
+    autocomplete: {{ project.owner.settings.autocomplete }},
+    keybinds: "{{ project.owner.settings.keybinds }}",
+    use_spaces: {{ project.owner.settings.use_spaces }},
+    tab_width: {{ project.owner.settings.tab_width }},
+    {% if project.owner.github and project.owner.github.token %}
+    github: {
+        username: "{{ project.owner.github.username }}",
+        avatar: "{{ project.owner.github.avatar }}"
+    },
+    {% endif %}
+    token: "{{ token }}"
+};
+var DOC_JSON = "{% static 'ide/documentation.json' %}";
+var LIBPEBBLE_PROXY = {{ libpebble_proxy | safe }};
+var REGEXES = _.mapObject(JSON.parse('{{regexes_json|escapejs}}'), function(v) { return new RegExp(v)});
+
+</script>
+<script src="{% static 'CodeMirror/lib/codemirror.js' %}"></script>
+<script src="{% static 'CodeMirror/addon/dialog/dialog.js' %}"></script>
+<script src="{% static 'CodeMirror/addon/search/searchcursor.js' %}"></script>
+<script src="{% static 'CodeMirror/addon/search/search.js' %}"></script>
+<script src="{% static 'CodeMirror/addon/edit/matchbrackets.js' %}"></script>
+<script src="{% static 'CodeMirror/addon/edit/closebrackets.js' %}"></script>
+<script src="{% static 'CodeMirror/addon/comment/comment.js' %}"></script>
+<script src="{% static 'CodeMirror/addon/fold/foldgutter.js' %}"></script>
+<script src="{% static 'CodeMirror/addon/fold/foldcode.js' %}"></script>
+<script src="{% static 'CodeMirror/addon/fold/brace-fold.js' %}"></script>
+<script src="{% static 'CodeMirror/addon/fold/comment-fold.js' %}"></script>
+<script src="{% static 'ide/external/codemirror.hint.js' %}"></script>
+<script src="{% static 'fuse.js/src/fuse.js' %}"></script>
+<script src="{% static 'CodeMirror/mode/clike/clike.js' %}"></script>
+<script src="{% static 'CodeMirror/mode/javascript/javascript.js' %}"></script>
+<script src="{% static 'CodeMirror/keymap/emacs.js' %}"></script>
+<script src="{% static 'CodeMirror/keymap/vim.js' %}"></script>
+<script src="{% static 'ide/external/uuid.js' %}"></script>
+<script src="/ide/jsi18n/"></script>
+<script src="{% static 'ide/js/json_parse.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/csrf.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/cloudpebble.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/sidebar.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/radix.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ycm.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/editor.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/codefolds.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/syntax.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/autocomplete.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/fuzzyprompt.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/live_settings_form.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/compile.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/dependencies.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/resources.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/textext_tagger.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/KVtable.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/settings.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/timeline.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/github.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/libpebble/proxysocket.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/libpebble/libpebble.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/crash_handler.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/pebble.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/hmmmmmm.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/documentation.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/qemu.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/ib.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/utils.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/properties.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/registry.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/resource_manager.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/resource.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/layer.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/canvas.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/resizer.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/layers/textlayer.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/layers/bitmaplayer.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/layers/actionbarlayer.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/layers/menulayer.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/layers/inverterlayer.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/toolkit.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/property_view.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/codegen.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/codeparser.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/ib/layer_list.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/emulator.js' %}" type="text/javascript"></script>
+<script src="{% static 'jshint/dist/jshint.js' %}" type="text/javascript"></script>
+<script src="{% static 'html.sortable/dist/html.sortable.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'text-encoding/lib/encoding.js' %}" type="text/javascript"></script>
+<script src="{% static 'noVNC/include/util.js' %}" type="text/javascript"></script>
+
+<script type="text/javascript">
+// Because there's apparently no good way to get these urls into javascript...
+var URL_VNC_INCLUDES = ["{% static 'noVNC/include/base64.js' %}",
+                        "{% static 'noVNC/include/websock.js' %}",
+                        "{% static 'noVNC/include/des.js' %}",
+                        "{% static 'noVNC/include/keysymdef.js' %}",
+                        "{% static 'noVNC/include/keyboard.js' %}",
+                        "{% static 'noVNC/include/input.js' %}",
+                        "{% static 'noVNC/include/display.js' %}",
+                        "{% static 'noVNC/include/jsunzip.js' %}",
+                        "{% static 'ide/external/vnc/rfb.js' %}",
+                        "{% static 'noVNC/include/keysym.js' %}"];
+var URL_BOOT_IMG = {
+    aplite: {url: "{% static 'ide/img/boot-aplite.png' %}", size: [144, 168]},
+    basalt: {url: "{% static 'ide/img/boot-basalt.png' %}", size: [144, 168]},
+    chalk: {url: "{% static 'ide/img/boot-chalk.png' %}", size: [180, 180]},
+    diorite: {url: "{% static 'ide/img/boot-aplite.png' %}", size: [144, 168]},
+    emery: {url: "{% static 'ide/img/boot-emery.png' %}", size: [200, 228]}
+};
+// TODO: Diorite - update image if needed
+CloudPebble.Init();
+</script>
+
+
+<script src="{% static 'jquery-textext/src/js/textext.core.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'jquery-textext/src/js/textext.plugin.tags.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'jquery-textext/src/js/textext.plugin.autocomplete.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'jquery-textext/src/js/textext.plugin.suggestions.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'jquery-textext/src/js/textext.plugin.filter.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'jquery-textext/src/js/textext.plugin.focus.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'jquery-textext/src/js/textext.plugin.prompt.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'jquery-textext/src/js/textext.plugin.ajax.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'jquery-textext/src/js/textext.plugin.arrow.js' %}" type="text/javascript" charset="utf-8"></script>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "common/base-narrow.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'ide/css/settings.css' %}">
+{% endblock %}
+
+{% block headercontent %}
+<ul class="nav-pills">
+    <li><a href="{% url 'ide:index' %}" class="btn">{% trans 'Projects' %}</a></li>
+    <li><a class="active btn">{% trans 'Settings' %}</a></li>
+    <li><a href="{% url 'logout' %}" class="btn">{% trans 'Sign out' %}</a></li>
+</ul>
+{% endblock %}
+
+{% block narrowcontent %}
+<div class="settings-container">
+    <div class="editor-settings">
+        <h2 class="section-heading">{% trans 'Editor settings' %}</h2>
+        <div class="well">
+            <form method="post" class="form-horizontal" id="user-settings-form">
+                {% if saved %}
+                    <div class="well alert alert-success">{% trans 'Settings saved!' %}</div>
+                {% endif %}
+                {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                <div class="control-group">
+                    <label for="id_{{field.html_name}}">{{field.label}}</label>
+                    <div class="controls">
+                        {{ field }}
+                        <span class="help-block hide"></span>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="form-actions">
+                    <input type="reset" class="btn" value="{% trans 'Reset' %}">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="github-settings">
+        <h2 class="section-heading">{% trans 'GitHub Integration' %}</h2>
+        <div class="well">
+            <form action="{% url 'ide:remove_github_auth' %}" method="post" id="unlink-form">{%csrf_token%}</form>
+            {% if github and github.token %}
+            <img src="{{ github.avatar }}" class="github-avatar">
+            <h2 class="github-username">{{ github.username }}</h2>
+            <div class="github-options">
+                <p>
+                    <form method="post" action="{% url 'ide:start_github_auth' %}">
+                        <input type="submit" class="btn btn-primary" value="{% trans 'Re-authenticate' %}">
+                        {% csrf_token %}
+                    </form>
+                </p>
+                <p>
+                    <form method="post" action="{% url 'ide:remove_github_auth' %}">
+                        <input type="submit" class="btn btn-primary" value="{% trans 'Unlink account' %}">
+                        {% csrf_token %}
+                    </form>
+                </p>
+                {% else %}
+                <p>
+                    <form method="post" action="{% url 'ide:start_github_auth' %}">
+                        <input type="submit" class="btn btn-primary" value="{% trans 'Link your GitHub account' %}">
+                        {% csrf_token %}
+                    </form>
+                </p>
+                {% endif %}
+                <hr>
+                <p>{% trans 'Connecting your GitHub account enables you to connect your projects to GitHub repositories.' %}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(function() {
+        jquery_csrf_setup();
+
+        // Warn about emacs kinda sucking.
+        $('#id_keybinds').change(function() {
+            if($(this).val() == 'emacs') {
+                $(this)
+                    .siblings('.help-block')
+                    .text("Note: the emacs mapping is limited, and will not work properly in some browsers (e.g. Chrome) that prevent using certain keys.")
+                    .removeClass('hide')
+            } else {
+                $(this).siblings('.help-block').addClass('hide');
+            }
+        });
+
+        $('#unlink-btn').click(function(e) {
+            e.preventDefault();
+            $('#unlink-form').submit();
+        });
+
+        var save = function() {
+            return Ajax.Ajax({
+                type: "POST",
+                url: "settings",
+                data: $("#user-settings-form").serialize() // serializes the form's elements.
+            });
+        };
+
+        make_live_settings_form({
+            save_function: save,
+            form: $("#user-settings-form")
+        }).init();
+
+        $("#user-settings-form").submit(function(e) {
+            e.preventDefault();
+            return false;
+        });
+    });
+</script>
+<script src="{% static 'ide/js/live_settings_form.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/csrf.js' %}" type="text/javascript"></script>
+{% endblock %}

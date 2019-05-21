@@ -1,0 +1,60 @@
+{% extends "common/base-narrow.html" %}
+{% load staticfiles %}
+{% block narrowcontent %}
+    <style>
+    p {
+        padding: 5px;
+    }
+    </style>
+<div>
+    <h1 style="text-align: center;">CloudPebble is now sponsored by Pebble!</h1>
+    <div class="well" style="text-align: center;">
+        <p>Your account and projects are as you left them, and you can continue as usual:</p>
+        <p><button class="btn btn-primary" id="btn-accept" style="width: 250px;">Accept and Continue</button></p>
+        <hr>
+        <p>If you object to Pebble running CloudPebble, you can export your data and delete your account.</p>
+        <p><button class="btn" id="btn-export" style="width: 200px;">Export all projects</button> <button class="btn btn-danger" id="btn-delete" style="width: 200px;">Delete account</button></p>
+        <p>Note that deleting your account is permanent and irreversible. Be sure you export your data first!</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block modals %}
+<div id="export-progress" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>Exporting…</h3>
+    </div>
+    <div class="model-body" style="text-align: center;">
+        <div id="export-pending-body">
+            <div>
+                <div id="export-progress-text" style="color: white;">
+                    <img src="{% static 'ide/img/zip.png' %}" style="height: 200px; width: 200px; margin-top: 10px;">
+                    <div class="progress active">
+                        <div class="bar" style="width: 100%;"></div>
+                    </div>
+                    <p>We're just getting that packaged up for you.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal boolean confirmation prompt -->
+<div id="modal-warning-prompt" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3 id="modal-warning-prompt-title">Modal header</h3>
+    </div>
+    <div class="modal-body" style="text-align: center;">
+        <p id="modal-warning-prompt-warning">Modal warning</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-danger" id="modal-warning-prompt-button">Continue</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'ide/js/csrf.js' %}" type="text/javascript"></script>
+<script src="{% static 'ide/js/new_owner.js' %}" type="text/javascript"></script>
+{% endblock %}

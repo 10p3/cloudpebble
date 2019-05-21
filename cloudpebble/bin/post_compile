@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# If this fails, the deploy should fail.
+set -e
+
+# Make sure we have the SDK in place.
+
+echo "Downloading SDK 2"
+curl -o /tmp/pebblesdk2.tar.gz -L https://s3.amazonaws.com/assets.getpebble.com/sdk3/sdk-core/sdk-core-2.9.tar.bz2
+
+echo "Downloading SDK 3"
+curl -o /tmp/pebblesdk3.tar.gz -L https://s3.amazonaws.com/assets.getpebble.com/sdk3/release/sdk-core-4.3.tar.bz2
+
+echo "Downloading the toolchain"
+curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/arm-cs-tools-stripped.tar
+tar -xf /tmp/arm-cs-tools.tar
+
+
+mkdir sdk2
+pushd sdk2
+    echo "Extracting SDK 2"
+    tar --strip 1 -xf /tmp/pebblesdk2.tar.gz
+popd
+
+mkdir sdk3
+pushd sdk3
+    echo "Extracting SDK 3"
+    tar --strip 1 -xf /tmp/pebblesdk3.tar.gz
+popd
+
+touch NO_TRACKING
+
+echo "Cleaning up."
+rm /tmp/*.tar.*
+
+# Make sure the database is up to date.
+echo "Performing database migration."
+python manage.py syncdb --noinput
+python manage.py migrate
+
+echo "Compiling gettext files"
+python manage.py compilemessages
+
+echo "Building LD_PRELOAD sandbox"
+make -C c-preload
+
+echo "Post-compile complete."
