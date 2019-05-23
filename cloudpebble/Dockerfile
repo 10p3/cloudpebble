@@ -5,6 +5,12 @@ ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=9.11.1 DJANGO_VERSION=1.6
 
 # Node stuff.
 
+# Disable IPv6 in gnupg - can cause key retrieval to fail
+RUN mkdir ~/.gnupg && \
+  echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf && \
+  chmod 700 ~/.gnupg && \
+  chmod 600 ~/.gnupg/dirmngr.conf
+
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
   && for key in \

@@ -17,6 +17,12 @@ RUN curl -o /tmp/arm-cs-tools.tar https://cloudpebble-vagrant.s3.amazonaws.com/a
 
 ENV NODE_VERSION=4.4.5 NPM_CONFIG_LOGLEVEL=info
 
+# Disable IPv6 in gnupg - can cause key retrieval to fail
+RUN mkdir ~/.gnupg && \
+  echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf && \
+  chmod 700 ~/.gnupg && \
+  chmod 600 ~/.gnupg/dirmngr.conf
+
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
   && for key in \
