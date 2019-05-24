@@ -5,6 +5,12 @@ ENV NPM_CONFIG_LOGLEVEL=info NODE_VERSION=9.11.1 DJANGO_VERSION=1.6
 
 # Node stuff.
 
+# Disable IPv6 in gnupg - can cause key retrieval to fail
+RUN mkdir ~/.gnupg && \
+  echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf && \
+  chmod 700 ~/.gnupg && \
+  chmod 600 ~/.gnupg/dirmngr.conf
+
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
   && for key in \
@@ -30,6 +36,9 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 RUN npm install -g npm jshint
 
 # Django stuff
+
+# Fix broken sources.list (jessie repositories have been archived)
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     gettext \
